@@ -1,6 +1,6 @@
-# Paper Slider
+# Panda team TinyMCE
 
-Vaadin 14 Java integration of @polymer/paper-slider
+Vaadin 14
 
 ## Development instructions
 
@@ -25,6 +25,6 @@ mvn versions:set -DnewVersion=1.0.0 # You cannot publish snapshot versions
 mvn install -Pdirectory
 ```
 
-The package is created as `target/paper-slider-1.0.0.zip`
+The package is created as `target/pandateam-tinymce-1.0.0.zip`
 
 For more information or to upload the package, visit https://vaadin.com/directory/my-components?uploadNewComponent
