@@ -1,9 +1,8 @@
 package org.vaadin.addons.pandateam.tinymce;
 
 import com.vaadin.flow.component.*;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.dependency.NpmPackage;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ShadowRoot;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @Tag("div")
 @JsModule("./TinyMCEConnector.js")
-@NpmPackage(value = "tinymce", version = "5.0.0")
+@JavaScript("https://cdn.tiny.cloud/1/ntpf9pxxdvy5ferv3wqv66lzbqyacc0zgrgj193f34fldp0a/tinymce/5/tinymce.min.js")
 public class TinyMCEComponent extends Div {
 
     private String id;
@@ -37,8 +36,9 @@ public class TinyMCEComponent extends Div {
      */
     public TinyMCEComponent(boolean shadowRoot) {
         setHeight("500px");
+        setId("basic-example");
         ta.getStyle().set("height", "100%");
-        if(shadowRoot) {
+        if (shadowRoot) {
             ShadowRoot shadow = getElement().attachShadow();
             shadow.appendChild(ta);
         } else {
@@ -163,7 +163,7 @@ public class TinyMCEComponent extends Div {
                 .callJsFunction("$connector.setEnabled", enabled));
     }
 
-//    @Override
+    //    @Override
     public void setReadOnly(boolean readOnly) {
 //        Field.super.setReadOnly(readOnly);
         setEnabled(!readOnly);

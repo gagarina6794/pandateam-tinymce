@@ -1,6 +1,3 @@
-import 'tinymce/tinymce.js';
-import 'tinymce/themes/silver/theme.js';
-
 window.Vaadin.Flow.tinyMCEConnector = {
     initLazy: function (customConfig, c, ta, options) {
         // Check whether the connector was already initialized for the datepicker
