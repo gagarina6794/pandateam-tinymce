@@ -3,7 +3,7 @@ package org.vaadin.addons.pandateam.tinymce;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ShadowRoot;
 import com.vaadin.flow.function.SerializableConsumer;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Tag("div")
 @JsModule("./TinyMCEConnector.js")
 @JavaScript("https://cdn.tiny.cloud/1/ntpf9pxxdvy5ferv3wqv66lzbqyacc0zgrgj193f34fldp0a/tinymce/5/tinymce.min.js")
-public class TinyMCEComponent extends Div {
+public class TinyMCEComponent extends TextArea {
 
     private String id;
     private boolean initialContentSent;

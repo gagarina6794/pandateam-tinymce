@@ -181,6 +181,9 @@
                     <supportedPackagings>
                         <supportedPackaging>jar</supportedPackaging>
                     </supportedPackagings>
+                    <httpConnector>
+                        <port>8558</port>
+                    </httpConnector>
                 </configuration>
             </plugin>
         </plugins>
