@@ -5,7 +5,7 @@
     <artifactId>pandateam-tinymce</artifactId>
     <version>1.0.0</version>
     <name>PandaTeam TinyMCE</name>
-    <description>Integration of paper-slider for Vaadin platform</description>
+    <description>A Rich Text editor, based on TinyMCE Web Component.</description>
 
     <properties>
         <vaadin.version>14.6.8</vaadin.version>
@@ -119,6 +119,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.github.legioth</groupId>
+            <artifactId>field</artifactId>
+            <version>0.10.0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
@@ -181,6 +186,11 @@
                     <supportedPackagings>
                         <supportedPackaging>jar</supportedPackaging>
                     </supportedPackagings>
+                    <webAppConfig>
+                        <resourceBases>
+                            <resourceBase>src/main/resources/META-INF/resources</resourceBase>
+                        </resourceBases>
+                    </webAppConfig>
                 </configuration>
             </plugin>
         </plugins>

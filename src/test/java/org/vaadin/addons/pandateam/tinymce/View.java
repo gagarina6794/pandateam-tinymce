@@ -7,7 +7,7 @@ import com.vaadin.flow.router.Route;
 public class View extends Div {
 
     public View() {
-        TinyMCEComponent tinyMCEComponent = new TinyMCEComponent();
-        add(tinyMCEComponent);
+        TinyMce tinyMCE = new TinyMce();
+        add(tinyMCE);
     }
 }

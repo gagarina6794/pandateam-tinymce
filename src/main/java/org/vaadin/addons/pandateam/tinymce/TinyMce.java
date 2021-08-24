@@ -3,24 +3,38 @@ package org.vaadin.addons.pandateam.tinymce;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ShadowRoot;
 import com.vaadin.flow.function.SerializableConsumer;
 import elemental.json.Json;
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
+import org.github.legioth.field.Field;
+import org.github.legioth.field.ValueMapper;
 
 import java.util.UUID;
 
+/**
+ * A Rich Text editor, based on TinyMCE Web Component.
+ *
+ * Some configurations has Java shorthand, some must be adjusted via
+ * getElement().setAttribute(String, String). See full options via
+ * https://www.tiny.cloud/docs/integrations/webcomponent/
+ *
+ * @author mstahv, Iryna Hrytsiuk
+ */
+
 @Tag("div")
-@JsModule("./TinyMCEConnector.js")
-@JavaScript("https://cdn.tiny.cloud/1/ntpf9pxxdvy5ferv3wqv66lzbqyacc0zgrgj193f34fldp0a/tinymce/5/tinymce.min.js")
-public class TinyMCEComponent extends Div {
+@NpmPackage(value = "tinymce", version = "5.6.1")
+@JsModule("tinymce/tinymce.js")
+@JavaScript("./TinyMCEConnector.js")
+public class TinyMce extends Component implements Field<TinyMce, String>, HasSize {
 
     private String id;
     private boolean initialContentSent;
     private String currentValue = "";
+    private final ValueMapper<String> valueMapper;
     private String rawConfig;
     JsonObject config = Json.createObject();
     private Element ta = new Element("div");
@@ -34,19 +48,19 @@ public class TinyMCEComponent extends Div {
      *
      * @param shadowRoot true of shadow root hack should be used
      */
-    public TinyMCEComponent(boolean shadowRoot) {
+    public TinyMce(boolean shadowRoot) {
         setHeight("500px");
-        setId("basic-example");
         ta.getStyle().set("height", "100%");
-        if (shadowRoot) {
+        if(shadowRoot) {
             ShadowRoot shadow = getElement().attachShadow();
             shadow.appendChild(ta);
         } else {
             getElement().appendChild(ta);
         }
+        this.valueMapper = Field.init(this, "", this::setEditorContent);
     }
 
-    public TinyMCEComponent() {
+    public TinyMce() {
         this(false);
     }
 
@@ -66,7 +80,6 @@ public class TinyMCEComponent extends Div {
         ta.setAttribute("id", id);
         ta.setProperty("innerHTML", currentValue);
         super.onAttach(attachEvent);
-        injectTinyMceScript();
         initConnector();
     }
 
@@ -80,6 +93,7 @@ public class TinyMCEComponent extends Div {
     @SuppressWarnings("deprecation")
     private void initConnector() {
         this.initialContentSent = true;
+        config.put("base_url", "tiny-builds/tinymce");
 
         runBeforeClientResponse(ui -> {
             ui.getPage().executeJs("window.Vaadin.Flow.tinyMCEConnector.initLazy($0, $1, $2, $3)", rawConfig,
@@ -95,7 +109,7 @@ public class TinyMCEComponent extends Div {
     @ClientCallable
     private void updateValue(String htmlString) {
         this.currentValue = htmlString;
-//        valueMapper.setModelValue(currentValue, true);
+        valueMapper.setModelValue(currentValue, true);
     }
 
     public String getCurrentValue() {
@@ -106,12 +120,12 @@ public class TinyMCEComponent extends Div {
         this.rawConfig = jsonConfig;
     }
 
-    public TinyMCEComponent configure(String configurationKey, String value) {
+    public TinyMce configure(String configurationKey, String value) {
         config.put(configurationKey, value);
         return this;
     }
 
-    public TinyMCEComponent configure(String configurationKey, String... value) {
+    public TinyMce configure(String configurationKey, String... value) {
         JsonArray array = Json.createArray();
         for (int i = 0; i < value.length; i++) {
             array.set(i, value[i]);
@@ -121,12 +135,12 @@ public class TinyMCEComponent extends Div {
     }
 
 
-    public TinyMCEComponent configure(String configurationKey, boolean value) {
+    public TinyMce configure(String configurationKey, boolean value) {
         config.put(configurationKey, value);
         return this;
     }
 
-    public TinyMCEComponent configure(String configurationKey, double value) {
+    public TinyMce configure(String configurationKey, double value) {
         config.put(configurationKey, value);
         return this;
     }
@@ -141,16 +155,6 @@ public class TinyMCEComponent extends Div {
                 .callJsFunction("$connector.replaceSelectionContent", htmlString));
     }
 
-    /**
-     * Injects actual editor script to the host page from the add-on bundle.
-     * <p>
-     * Override this with an empty implementation if you to use the cloud hosted
-     * version, or own custom script if needed.
-     */
-    protected void injectTinyMceScript() {
-//        getUI().get().getPage().addJavaScript("tinymce/tinymce.js");
-    }
-
     public void focus() {
         runBeforeClientResponse(ui -> getElement()
                 .callJsFunction("$connector.focus"));
@@ -158,16 +162,15 @@ public class TinyMCEComponent extends Div {
 
     @Override
     public void setEnabled(boolean enabled) {
-//        Field.super.setEnabled(enabled);
+        Field.super.setEnabled(enabled);
         runBeforeClientResponse(ui -> getElement()
                 .callJsFunction("$connector.setEnabled", enabled));
     }
 
-    //    @Override
+    @Override
     public void setReadOnly(boolean readOnly) {
-//        Field.super.setReadOnly(readOnly);
+        Field.super.setReadOnly(readOnly);
         setEnabled(!readOnly);
     }
-
 
 }
