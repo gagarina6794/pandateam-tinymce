@@ -15,7 +15,7 @@ using the `@NpmPackage` annotation in addition to using `@JsModule` annotation.
 
 Starting the test/demo server:
 1. Run `mvn jetty:run`.
-2. Open http://localhost:8080 in the browser.
+2. Open http://localhost:8558 in the browser.
 
 ## Publishing to Vaadin Directory
 
