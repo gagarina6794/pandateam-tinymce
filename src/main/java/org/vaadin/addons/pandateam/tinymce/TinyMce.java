@@ -26,8 +26,8 @@ import java.util.UUID;
  */
 
 @Tag("div")
-@NpmPackage(value = "tinymce", version = "5.6.1")
-@JsModule("tinymce/tinymce.js")
+@NpmPackage(value = "tinymce", version = "5.8.2")
+@JsModule("tinymce/tinymce.min.js")
 @JavaScript("./TinyMCEConnector.js")
 public class TinyMce extends Component implements Field<TinyMce, String>, HasSize {
 
@@ -93,7 +93,7 @@ public class TinyMce extends Component implements Field<TinyMce, String>, HasSiz
     @SuppressWarnings("deprecation")
     private void initConnector() {
         this.initialContentSent = true;
-        config.put("base_url", "tiny-builds/tinymce");
+        config.put("base_url", "tiny-builds/tinymce/js/tinymce");
 
         runBeforeClientResponse(ui -> {
             ui.getPage().executeJs("window.Vaadin.Flow.tinyMCEConnector.initLazy($0, $1, $2, $3)", rawConfig,

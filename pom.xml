@@ -191,6 +191,9 @@
                             <resourceBase>src/main/resources/META-INF/resources</resourceBase>
                         </resourceBases>
                     </webAppConfig>
+                    <httpConnector>
+                        <port>8558</port>
+                    </httpConnector>
                 </configuration>
             </plugin>
         </plugins>
